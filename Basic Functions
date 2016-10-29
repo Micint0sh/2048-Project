@@ -7,7 +7,7 @@ void ToEnd(int *line,int num)
 	line[3] = 0;
 }
 
-int merge(int *line)
+int Merge(int *line)
 {
 	int count = 0;
 	for (int i = 1; i < 4; i++)
