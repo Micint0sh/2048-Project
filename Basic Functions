@@ -1,0 +1,41 @@
+void ToEnd(int *line,int num)
+{
+	for (int i = num; i < 4; i++)
+	{
+		line[i] = line[i + 1];
+	}
+	line[3] = 0;
+}
+
+int merge(int *line)
+{
+	int count = 0;
+	for (int i = 1; i < 4; i++)
+	{
+		if (line[i] == line[i - 1])
+		{
+			line[i - 1] += line[i];
+			line[i] = 0;
+			count++;
+		}
+	}
+	return count;
+}
+
+int ClearZero(int *line)
+{
+	int count = 0,i=0;
+	while(i<4-count)
+	{
+		if (line[i] == 0)
+		{
+			ToEnd(line, i);
+			count++;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	return count;
+}
