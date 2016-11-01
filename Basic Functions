@@ -39,3 +39,10 @@ int ClearZero(int *line)
 	}
 	return count;
 }
+
+//include <time.h> & <stdlib.h>
+int RandCoor()
+{
+	srand((unsigned)time(NULL));
+	return rand() % 4;
+}
