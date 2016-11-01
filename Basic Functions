@@ -46,3 +46,22 @@ int RandCoor()
 	srand((unsigned)time(NULL));
 	return rand() % 4;
 }
+
+int RandGameNum()
+{
+	srand((unsigned)time(NULL));
+	return (rand() % 2 + 1) * 2;
+}
+
+//To be completed.
+void Initialize()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			map[i][j] = 0;
+		}
+	}
+
+}
