@@ -46,15 +46,18 @@ int ClearZero(int *line)
 }
 
 //include <time.h> & <stdlib.h>
-int RandCoor()
+void RandIni()
 {
 	srand((unsigned)time(NULL));
+}
+
+int RandCoor()
+{
 	return rand() % 4;
 }
 
 int RandGameNum()
 {
-	srand((unsigned)time(NULL));
 	return (rand() % 2 + 1) * 2;
 }
 
@@ -242,6 +245,7 @@ void ActionRight(int map[][4])
 int main()
 {
 	int map[4][4];
+	RandIni();
 	Initialize(map);
 	while (1)
 	{
