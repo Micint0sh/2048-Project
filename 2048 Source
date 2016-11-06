@@ -176,8 +176,8 @@ int ActionUp(int map[][4])
 		{
 			line[j] = map[j][i];
 		}
-		flag+=ClearZero(line);
-		flag+=Merge(line);
+		ClearZero(line);
+		Merge(line);
 		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
@@ -197,8 +197,8 @@ int ActionDown(int map[][4])
 		{
 			line[j] = map[3-j][i];
 		}
-		flag+=ClearZero(line);
-		flag+=Merge(line);
+		ClearZero(line);
+		Merge(line);
 		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
@@ -218,8 +218,8 @@ int ActionLeft(int map[][4])
 		{
 			line[j] = map[i][j];
 		}
-		flag+=ClearZero(line);
-		flag+=Merge(line);
+		ClearZero(line);
+		Merge(line);
 		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
@@ -239,8 +239,8 @@ int ActionRight(int map[][4])
 		{
 			line[j] = map[i][3-j];
 		}
-		flag+=ClearZero(line);
-		flag+=Merge(line);
+		ClearZero(line);
+		Merge(line);
 		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
