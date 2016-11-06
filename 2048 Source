@@ -166,8 +166,9 @@ int ReadKey()
 	}
 }
 
-void ActionUp(int map[][4])
+int ActionUp(int map[][4])
 {
+	int flag = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
@@ -175,18 +176,20 @@ void ActionUp(int map[][4])
 		{
 			line[j] = map[j][i];
 		}
-		ClearZero(line);
-		Merge(line);
-		ClearZero(line);
+		flag+=ClearZero(line);
+		flag+=Merge(line);
+		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
 			map[j][i]=line[j];
 		}
 	}
+	return flag;
 }
 
-void ActionDown(int map[][4])
+int ActionDown(int map[][4])
 {
+	int flag = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
@@ -194,18 +197,20 @@ void ActionDown(int map[][4])
 		{
 			line[j] = map[3-j][i];
 		}
-		ClearZero(line);
-		Merge(line);
-		ClearZero(line);
+		flag+=ClearZero(line);
+		flag+=Merge(line);
+		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
 			map[3 - j][i]=line[j];
 		}
 	}
+	return flag;
 }
 
-void ActionLeft(int map[][4])
+int ActionLeft(int map[][4])
 {
+	int flag = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
@@ -213,18 +218,20 @@ void ActionLeft(int map[][4])
 		{
 			line[j] = map[i][j];
 		}
-		ClearZero(line);
-		Merge(line);
-		ClearZero(line);
+		flag+=ClearZero(line);
+		flag+=Merge(line);
+		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
 			map[i][j] = line[j];
 		}
 	}
+	return flag;
 }
 
-void ActionRight(int map[][4])
+int ActionRight(int map[][4])
 {
+	int flag = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
@@ -232,38 +239,97 @@ void ActionRight(int map[][4])
 		{
 			line[j] = map[i][3-j];
 		}
-		ClearZero(line);
-		Merge(line);
-		ClearZero(line);
+		flag+=ClearZero(line);
+		flag+=Merge(line);
+		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
 			map[i][3 - j] = line[j];
 		}
 	}
+	return flag;
+}
+
+int CheckFull(int map[][4])
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (map[i][j] == 0)
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
 int main()
 {
 	int map[4][4];
+	int tmp;
+	int flag = 0;
 	RandIni();
 	Initialize(map);
 	while (1)
 	{
+		flag = 0;
 		switch (ReadKey())
 		{
 		case 1://up
-			ActionUp(map);
+
+			tmp = ActionUp(map);
+			if (tmp == 0)
+			{
+				printf("\n\nInvalid Input\n");
+				flag = 1;
+			}
 			break;
+
+
 		case 2://down
-			ActionDown(map);
+
+
+			tmp = ActionDown(map);
+			if (tmp == 0)
+			{
+				printf("\n\nInvalid Input\n");
+				flag = 1;
+			}
 			break;
+
+
 		case 3://left
-			ActionLeft(map);
+
+
+			tmp = ActionLeft(map);
+			if (tmp == 0)
+			{
+				printf("\n\nInvalid Input\n");
+				flag = 1;
+			}
 			break;
+
+
 		case 4://right
-			ActionRight(map);
+
+
+			tmp = ActionRight(map);
+			if (tmp == 0)
+			{
+				printf("\n\nInvalid Input\n");
+				flag = 1;
+			}
+			break;
+
+
 		default:
 			break;
+		}
+		if (flag == 1)
+		{
+			continue;
 		}
 		while (1)
 		{
@@ -276,6 +342,11 @@ int main()
 			}
 		}
 		PrintMap(map);
+		if (CheckFull(map) == 1)
+		{
+			printf("	  -------You Lose-------\n");
+			break;
+		}
 	}
 	return 0;
 }
