@@ -54,7 +54,7 @@ int RandGameNum()
 }
 
 //To be completed.
-void Initialize()
+void Initialize(int map[][4])
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -63,5 +63,76 @@ void Initialize()
 			map[i][j] = 0;
 		}
 	}
+	int cnt = 0;
+	while (cnt<2)
+	{
+		int x = RandCoor();
+		int y = RandCoor();
+		if (IsEmpty(x, y, map) == 1)
+		{
+			map[x][y] = RandGameNum();
+			cnt++;
+		}
+	}
+}
 
+int ReadKey()
+{
+	char ch = getch();
+	//when you press arrow in your keyboard, two values will be pushed into buffer
+	//the first value is 224 or 0 then it is a arrow key.
+	if (ch == 224 || ch == 0)
+	{
+		ch = getch();
+		switch (ch)
+		{
+		case 72: //Up
+		{
+			return 1;
+		}
+		break;
+		case 80: //down
+		{
+			return 2;
+		}
+		break;
+		case 75: //left
+		{
+			return 3;
+		}
+		break;
+		case 77: //right
+		{
+			return 4;
+		}
+		break;
+		default: return 0;
+			break;
+		}//end switch  
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void ActionUp(int map[][4])
+{
+
+}
+
+void ReadLine_Hori(int n, int map[][4],int *line)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		line[i] = map[n][i];
+	}
+}
+
+void ReadLine_Vert(int n, int map[][4], int *line)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		line[i] = map[i][n];
+	}
 }
