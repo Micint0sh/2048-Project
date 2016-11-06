@@ -1,4 +1,9 @@
-void ToEnd(int *line,int num)
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <conio.h>
+
+void ToEnd(int *line, int num)
 {
 	for (int i = num; i < 4; i++)
 	{
@@ -24,8 +29,8 @@ int Merge(int *line)
 
 int ClearZero(int *line)
 {
-	int count = 0,i=0;
-	while(i<4-count)
+	int count = 0, i = 0;
+	while (i<4 - count)
 	{
 		if (line[i] == 0)
 		{
@@ -53,6 +58,47 @@ int RandGameNum()
 	return (rand() % 2 + 1) * 2;
 }
 
+void PrintMap(int map[][4])
+{
+	system("cls");
+	int i, j;
+	printf("\n\n\n");
+	for (i = 0; i < 4; i++)
+	{
+		printf("        ");
+		for (j = 0; j < 4; j++)
+		{
+			switch (map[i][j])
+			{
+			case 0:printf("   .   ");
+				break;
+			case 2:printf("   2   ");
+				break;
+			case 4:printf("   4   ");
+				break;
+			case 8:printf("   8   ");
+				break;
+			case 16:printf("   16  ");
+				break;
+			case 32:printf("   32  ");
+				break;
+			case 64:printf("   64  ");
+				break;
+			case 128:printf("   128 ");
+				break;
+			case 256:printf("   256 ");
+				break;
+			case 512:printf("   512 ");
+				break;
+			case 1024:printf("  1024 ");
+				break;
+			case 2048:printf("  2048 ");
+				break;
+			}
+		}
+		printf("\n\n\n");
+	}
+}
 //To be completed.
 void Initialize(int map[][4])
 {
@@ -68,22 +114,23 @@ void Initialize(int map[][4])
 	{
 		int x = RandCoor();
 		int y = RandCoor();
-		if (IsEmpty(x, y, map) == 1)
+		if (map[x][y]==0)
 		{
 			map[x][y] = RandGameNum();
 			cnt++;
 		}
 	}
+	PrintMap(map);
 }
 
 int ReadKey()
 {
-	char ch = getch();
+	int ch = _getch();
 	//when you press arrow in your keyboard, two values will be pushed into buffer
 	//the first value is 224 or 0 then it is a arrow key.
 	if (ch == 224 || ch == 0)
 	{
-		ch = getch();
+		ch = _getch();
 		switch (ch)
 		{
 		case 72: //Up
@@ -108,7 +155,7 @@ int ReadKey()
 		break;
 		default: return 0;
 			break;
-		}//end switch  
+		}//end switch 
 	}
 	else
 	{
@@ -118,21 +165,113 @@ int ReadKey()
 
 void ActionUp(int map[][4])
 {
-
-}
-
-void ReadLine_Hori(int n, int map[][4],int *line)
-{
 	for (int i = 0; i < 4; i++)
 	{
-		line[i] = map[n][i];
+		int line[4];
+		for (int j = 0; j < 4; j++)
+		{
+			line[j] = map[j][i];
+		}
+		ClearZero(line);
+		Merge(line);
+		ClearZero(line);
+		for (int j = 0; j < 4; j++)
+		{
+			map[j][i]=line[j];
+		}
 	}
 }
 
-void ReadLine_Vert(int n, int map[][4], int *line)
+void ActionDown(int map[][4])
 {
 	for (int i = 0; i < 4; i++)
 	{
-		line[i] = map[i][n];
+		int line[4];
+		for (int j = 0; j < 4; j++)
+		{
+			line[j] = map[3-j][i];
+		}
+		ClearZero(line);
+		Merge(line);
+		ClearZero(line);
+		for (int j = 0; j < 4; j++)
+		{
+			map[3 - j][i]=line[j];
+		}
 	}
+}
+
+void ActionLeft(int map[][4])
+{
+	for (int i = 0; i < 4; i++)
+	{
+		int line[4];
+		for (int j = 0; j < 4; j++)
+		{
+			line[j] = map[i][j];
+		}
+		ClearZero(line);
+		Merge(line);
+		ClearZero(line);
+		for (int j = 0; j < 4; j++)
+		{
+			map[i][j] = line[j];
+		}
+	}
+}
+
+void ActionRight(int map[][4])
+{
+	for (int i = 0; i < 4; i++)
+	{
+		int line[4];
+		for (int j = 0; j < 4; j++)
+		{
+			line[j] = map[i][3-j];
+		}
+		ClearZero(line);
+		Merge(line);
+		ClearZero(line);
+		for (int j = 0; j < 4; j++)
+		{
+			map[i][3 - j] = line[j];
+		}
+	}
+}
+
+int main()
+{
+	int map[4][4];
+	Initialize(map);
+	while (1)
+	{
+		switch (ReadKey())
+		{
+		case 1://up
+			ActionUp(map);
+			break;
+		case 2://down
+			ActionDown(map);
+			break;
+		case 3://left
+			ActionLeft(map);
+			break;
+		case 4://right
+			ActionRight(map);
+		default:
+			break;
+		}
+		while (1)
+		{
+			int x = RandCoor();
+			int y = RandCoor();
+			if (map[x][y] == 0)
+			{
+				map[x][y] = RandGameNum();
+				break;
+			}
+		}
+		PrintMap(map);
+	}
+	return 0;
 }
