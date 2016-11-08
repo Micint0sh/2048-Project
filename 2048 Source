@@ -12,22 +12,19 @@ void ToEnd(int *line, int num)
 	line[3] = 0;
 }
 
-int Merge(int *line)
+void Merge(int *line)
 {
-	int count = 0;
 	for (int i = 1; i < 4; i++)
 	{
 		if (line[i] == line[i - 1])
 		{
 			line[i - 1] += line[i];
 			line[i] = 0;
-			count++;
 		}
 	}
-	return count;
 }
 
-int ClearZero(int *line)
+void ClearZero(int *line)
 {
 	int count = 0, i = 0;
 	while (i<4 - count)
@@ -42,7 +39,6 @@ int ClearZero(int *line)
 			i++;
 		}
 	}
-	return count;
 }
 
 //include <time.h> & <stdlib.h>
@@ -117,7 +113,7 @@ void Initialize(int map[][4])
 	{
 		int x = RandCoor();
 		int y = RandCoor();
-		if (map[x][y]==0)
+		if (map[x][y] == 0)
 		{
 			map[x][y] = RandGameNum();
 			cnt++;
@@ -168,86 +164,150 @@ int ReadKey()
 
 int ActionUp(int map[][4])
 {
-	int flag = 0;
+	int cnt = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
+		int tmpline[4];
 		for (int j = 0; j < 4; j++)
 		{
 			line[j] = map[j][i];
 		}
-		ClearZero(line);
-		Merge(line);
-		flag+=ClearZero(line);
 		for (int j = 0; j < 4; j++)
 		{
-			map[j][i]=line[j];
+			tmpline[j] = map[j][i];
+		}
+		ClearZero(line);
+		Merge(line);
+		ClearZero(line);
+		if (tmpline[0] == line[0] && tmpline[1] == line[1] && tmpline[2] == line[2] && tmpline[3] == line[3])
+		{
+			cnt++;
+		}
+		for (int j = 0; j < 4; j++)
+		{
+			map[j][i] = line[j];
 		}
 	}
-	return flag;
+	if (cnt == 4)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int ActionDown(int map[][4])
 {
-	int flag = 0;
+	int cnt = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
+		int tmpline[4];
 		for (int j = 0; j < 4; j++)
 		{
-			line[j] = map[3-j][i];
+			line[j] = map[3 - j][i];
+		}
+		for (int j = 0; j < 4; j++)
+		{
+			tmpline[j] = map[3 - j][i];
 		}
 		ClearZero(line);
 		Merge(line);
-		flag+=ClearZero(line);
+		ClearZero(line);
+		if (tmpline[0] == line[0] && tmpline[1] == line[1] && tmpline[2] == line[2] && tmpline[3] == line[3])
+		{
+			cnt++;
+		}
 		for (int j = 0; j < 4; j++)
 		{
-			map[3 - j][i]=line[j];
+			map[3 - j][i] = line[j];
 		}
 	}
-	return flag;
+	if (cnt == 4)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int ActionLeft(int map[][4])
 {
-	int flag = 0;
+	int cnt = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
+		int tmpline[4];
 		for (int j = 0; j < 4; j++)
 		{
 			line[j] = map[i][j];
 		}
+		for (int j = 0; j < 4; j++)
+		{
+			tmpline[j] = map[i][j];
+		}
 		ClearZero(line);
 		Merge(line);
-		flag+=ClearZero(line);
+		ClearZero(line);
+		if (tmpline[0] == line[0] && tmpline[1] == line[1] && tmpline[2] == line[2] && tmpline[3] == line[3])
+		{
+			cnt++;
+		}
 		for (int j = 0; j < 4; j++)
 		{
 			map[i][j] = line[j];
 		}
 	}
-	return flag;
+	if (cnt == 4)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int ActionRight(int map[][4])
 {
-	int flag = 0;
+	int cnt = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		int line[4];
+		int tmpline[4];
 		for (int j = 0; j < 4; j++)
 		{
-			line[j] = map[i][3-j];
+			line[j] = map[i][3 - j];
+		}
+		for (int j = 0; j < 4; j++)
+		{
+			tmpline[j] = map[i][3 - j];
 		}
 		ClearZero(line);
 		Merge(line);
-		flag+=ClearZero(line);
+		ClearZero(line);
+		if (tmpline[0] == line[0] && tmpline[1] == line[1] && tmpline[2] == line[2] && tmpline[3] == line[3])
+		{
+			cnt++;
+		}
 		for (int j = 0; j < 4; j++)
 		{
 			map[i][3 - j] = line[j];
 		}
 	}
-	return flag;
+	if (cnt == 4)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int CheckFull(int map[][4])
@@ -280,7 +340,7 @@ int main()
 		case 1://up
 
 			tmp = ActionUp(map);
-			if (tmp == 0)
+			if (tmp == 1)
 			{
 				printf("\n\nInvalid Input\n");
 				flag = 1;
@@ -292,7 +352,7 @@ int main()
 
 
 			tmp = ActionDown(map);
-			if (tmp == 0)
+			if (tmp == 1)
 			{
 				printf("\n\nInvalid Input\n");
 				flag = 1;
@@ -304,7 +364,7 @@ int main()
 
 
 			tmp = ActionLeft(map);
-			if (tmp == 0)
+			if (tmp == 1)
 			{
 				printf("\n\nInvalid Input\n");
 				flag = 1;
@@ -316,7 +376,7 @@ int main()
 
 
 			tmp = ActionRight(map);
-			if (tmp == 0)
+			if (tmp == 1)
 			{
 				printf("\n\nInvalid Input\n");
 				flag = 1;
