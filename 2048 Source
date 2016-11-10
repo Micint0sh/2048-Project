@@ -41,22 +41,6 @@ void ClearZero(int *line)
 	}
 }
 
-//include <time.h> & <stdlib.h>
-void RandIni()
-{
-	srand((unsigned)time(NULL));
-}
-
-int RandCoor()
-{
-	return rand() % 4;
-}
-
-int RandGameNum()
-{
-	return (rand() % 2 + 1) * 2;
-}
-
 void PrintMap(int map[][4])
 {
 	system("cls");
@@ -108,20 +92,8 @@ void Initialize(int map[][4])
 			map[i][j] = 0;
 		}
 	}
-	int cnt = 0;
-	while (cnt<2)
-	{
-		int x = RandCoor();
-		int y = RandCoor();
-		if (map[x][y] == 0)
-		{
-			map[x][y] = RandGameNum();
-			cnt++;
-		}
-	}
-	PrintMap(map);
 }
-
+/*
 int ReadKey()
 {
 	int ch = _getch();
@@ -159,6 +131,51 @@ int ReadKey()
 	else
 	{
 		return 0;
+	}
+}
+*/
+
+int ReadKey()
+{
+	while (1)
+	{
+		int ch = getchar();
+		//when you press arrow in your keyboard, two values will be pushed into buffer
+		//the first value is 224 or 0 then it is a arrow key.
+		if (ch == 'w')//up
+		{
+			setbuf(stdin, NULL);
+			return 1;
+		}
+		else
+		{
+			if (ch == 'z')//down
+			{
+				setbuf(stdin, NULL);
+				return 2;
+			}
+			else
+			{
+				if (ch == 'a')//left
+				{
+					setbuf(stdin, NULL);
+					return 3;
+				}
+				else
+				{
+					if (ch == 's')//right
+					{
+						setbuf(stdin, NULL);
+						return 4;
+					}
+					else
+					{
+						printf("-----Invalid Input!-----\n-----Please type again!-----\n");
+						setbuf(stdin, NULL);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -325,87 +342,168 @@ int CheckFull(int map[][4])
 	return 1;
 }
 
+int CheckLose(int map[][4])
+{
+	int tmpmap[4][4];
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			tmpmap[i][j] = map[i][j];
+		}
+	}
+	if (CheckFull(tmpmap) == 1)
+	{
+		int tmp = ActionUp(tmpmap);
+		if (tmp == 1)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					tmpmap[i][j] = map[i][j];
+				}
+			}
+			int tmp = ActionDown(tmpmap);
+			if (tmp == 1)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					for (int j = 0; j < 4; j++)
+					{
+						tmpmap[i][j] = map[i][j];
+					}
+				}
+				int tmp = ActionLeft(tmpmap);
+				if (tmp == 1)
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						for (int j = 0; j < 4; j++)
+						{
+							tmpmap[i][j] = map[i][j];
+						}
+					}
+					int tmp = ActionRight(tmpmap);
+					if (tmp == 1)
+					{
+						return 1;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 int main()
 {
 	int map[4][4];
 	int tmp;
 	int flag = 0;
-	RandIni();
+	srand((unsigned)time(NULL));;
 	Initialize(map);
 	while (1)
 	{
-		flag = 0;
-		switch (ReadKey())
-		{
-		case 1://up
-
-			tmp = ActionUp(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 2://down
-
-
-			tmp = ActionDown(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 3://left
-
-
-			tmp = ActionLeft(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 4://right
-
-
-			tmp = ActionRight(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		default:
-			break;
-		}
-		if (flag == 1)
-		{
-			continue;
-		}
+		int i, j;
 		while (1)
 		{
-			int x = RandCoor();
-			int y = RandCoor();
-			if (map[x][y] == 0)
+			i = rand() % 4;
+			j = rand() % 4;
+			if (map[i][j] == 0)
 			{
-				map[x][y] = RandGameNum();
+				map[i][j] = 2;
 				break;
 			}
 		}
 		PrintMap(map);
-		if (CheckFull(map) == 1)
+		if (CheckLose(map) == 1)
 		{
 			printf("	  -------You Lose-------\n");
 			break;
+		}
+		while (1)
+		{
+			flag = 0;
+			switch (ReadKey())
+			{
+			case 1://up
+
+				tmp = ActionUp(map);
+				if (tmp == 1)
+				{
+					printf("\n\nInvalid Input\n");
+					flag = 1;
+				}
+				break;
+
+
+			case 2://down
+
+
+				tmp = ActionDown(map);
+				if (tmp == 1)
+				{
+					printf("\n\nInvalid Input\n");
+					flag = 1;
+				}
+				break;
+
+
+			case 3://left
+
+
+				tmp = ActionLeft(map);
+				if (tmp == 1)
+				{
+					printf("\n\nInvalid Input\n");
+					flag = 1;
+				}
+				break;
+
+
+			case 4://right
+
+
+				tmp = ActionRight(map);
+				if (tmp == 1)
+				{
+					printf("\n\nInvalid Input\n");
+					flag = 1;
+				}
+				break;
+
+
+			default:
+				break;
+			}
+			if (flag == 1)
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 	return 0;
