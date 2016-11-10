@@ -44,45 +44,26 @@ void ClearZero(int *line)
 void PrintMap(int map[][4])
 {
 	system("cls");
-	int i, j;
-	printf("\n\n\n");
-	for (i = 0; i < 4; i++)
+	printf("+----+----+----+----+\n");
+	for (int i = 0; i < 4; i++)
 	{
-		printf("        ");
-		for (j = 0; j < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
-			switch (map[i][j])
+			printf("|");
+			if (map[i][j] == 0)
 			{
-			case 0:printf("   .   ");
-				break;
-			case 2:printf("   2   ");
-				break;
-			case 4:printf("   4   ");
-				break;
-			case 8:printf("   8   ");
-				break;
-			case 16:printf("   16  ");
-				break;
-			case 32:printf("   32  ");
-				break;
-			case 64:printf("   64  ");
-				break;
-			case 128:printf("   128 ");
-				break;
-			case 256:printf("   256 ");
-				break;
-			case 512:printf("   512 ");
-				break;
-			case 1024:printf("  1024 ");
-				break;
-			case 2048:printf("  2048 ");
-				break;
+				printf("    ");
+			}
+			else
+			{
+				printf("%4d", map[i][j]);
 			}
 		}
-		printf("\n\n\n");
+		printf("|\n");
+		printf("+----+----+----+----+\n");
 	}
 }
-//To be completed.
+
 void Initialize(int map[][4])
 {
 	for (int i = 0; i < 4; i++)
@@ -93,47 +74,6 @@ void Initialize(int map[][4])
 		}
 	}
 }
-/*
-int ReadKey()
-{
-	int ch = _getch();
-	//when you press arrow in your keyboard, two values will be pushed into buffer
-	//the first value is 224 or 0 then it is a arrow key.
-	if (ch == 224 || ch == 0)
-	{
-		ch = _getch();
-		switch (ch)
-		{
-		case 72: //Up
-		{
-			return 1;
-		}
-		break;
-		case 80: //down
-		{
-			return 2;
-		}
-		break;
-		case 75: //left
-		{
-			return 3;
-		}
-		break;
-		case 77: //right
-		{
-			return 4;
-		}
-		break;
-		default: return 0;
-			break;
-		}//end switch 
-	}
-	else
-	{
-		return 0;
-	}
-}
-*/
 
 int ReadKey()
 {
@@ -438,7 +378,16 @@ int main()
 		PrintMap(map);
 		if (CheckLose(map) == 1)
 		{
-			printf("	  -------You Lose-------\n");
+			printf("-------You Lose-------\n");
+			int count = 0;
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					count += map[i][j];
+				}
+			}
+			printf("-----Your Score is %d !-----\n", count);
 			break;
 		}
 		while (1)
