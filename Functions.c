@@ -41,6 +41,48 @@ void ClearZero(int *line)
 	}
 }
 
+/*void PrintMap(int map[][4])
+{
+system("cls");
+int i, j;
+printf("\n\n\n");
+for (i = 0; i < 4; i++)
+{
+printf("        ");
+for (j = 0; j < 4; j++)
+{
+switch (map[i][j])
+{
+case 0:printf("   .   ");
+break;
+case 2:printf("   2   ");
+break;
+case 4:printf("   4   ");
+break;
+case 8:printf("   8   ");
+break;
+case 16:printf("   16  ");
+break;
+case 32:printf("   32  ");
+break;
+case 64:printf("   64  ");
+break;
+case 128:printf("   128 ");
+break;
+case 256:printf("   256 ");
+break;
+case 512:printf("   512 ");
+break;
+case 1024:printf("  1024 ");
+break;
+case 2048:printf("  2048 ");
+break;
+}
+}
+printf("\n\n\n");
+}
+}*/
+
 void PrintMap(int map[][4])
 {
 	system("cls");
@@ -74,50 +116,48 @@ void Initialize(int map[][4])
 		}
 	}
 }
-
+/*
 int ReadKey()
 {
-	while (1)
-	{
-		int ch = getchar();
-		//when you press arrow in your keyboard, two values will be pushed into buffer
-		//the first value is 224 or 0 then it is a arrow key.
-		if (ch == 'w')//up
-		{
-			setbuf(stdin, NULL);
-			return 1;
-		}
-		else
-		{
-			if (ch == 'z')//down
-			{
-				setbuf(stdin, NULL);
-				return 2;
-			}
-			else
-			{
-				if (ch == 'a')//left
-				{
-					setbuf(stdin, NULL);
-					return 3;
-				}
-				else
-				{
-					if (ch == 's')//right
-					{
-						setbuf(stdin, NULL);
-						return 4;
-					}
-					else
-					{
-						printf("-----Invalid Input!-----\n-----Please type again!-----\n");
-						setbuf(stdin, NULL);
-					}
-				}
-			}
-		}
-	}
+int ch = _getch();
+//when you press arrow in your keyboard, two values will be pushed into buffer
+//the first value is 224 or 0 then it is a arrow key.
+if (ch == 224 || ch == 0)
+{
+ch = _getch();
+switch (ch)
+{
+case 72: //Up
+{
+return 1;
 }
+break;
+case 80: //down
+{
+return 2;
+}
+break;
+case 75: //left
+{
+return 3;
+}
+break;
+case 77: //right
+{
+return 4;
+}
+break;
+default: return 0;
+break;
+}//end switch
+}
+else
+{
+return 0;
+}
+}
+*/
+
 
 int ActionUp(int map[][4])
 {
@@ -353,107 +393,4 @@ int CheckLose(int map[][4])
 	{
 		return 0;
 	}
-}
-
-int main()
-{
-	int map[4][4];
-	int tmp;
-	int flag = 0;
-	srand((unsigned)time(NULL));;
-	Initialize(map);
-	while (1)
-	{
-		int i, j;
-		while (1)
-		{
-			i = rand() % 4;
-			j = rand() % 4;
-			if (map[i][j] == 0)
-			{
-				map[i][j] = 2;
-				break;
-			}
-		}
-		PrintMap(map);
-		if (CheckLose(map) == 1)
-		{
-			printf("-------You Lose-------\n");
-			int count = 0;
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = 0; j < 4; j++)
-				{
-					count += map[i][j];
-				}
-			}
-			printf("-----Your Score is %d !-----\n", count);
-			break;
-		}
-		while (1)
-		{
-			flag = 0;
-			switch (ReadKey())
-			{
-			case 1://up
-
-				tmp = ActionUp(map);
-				if (tmp == 1)
-				{
-					printf("\n\nInvalid Input\n");
-					flag = 1;
-				}
-				break;
-
-
-			case 2://down
-
-
-				tmp = ActionDown(map);
-				if (tmp == 1)
-				{
-					printf("\n\nInvalid Input\n");
-					flag = 1;
-				}
-				break;
-
-
-			case 3://left
-
-
-				tmp = ActionLeft(map);
-				if (tmp == 1)
-				{
-					printf("\n\nInvalid Input\n");
-					flag = 1;
-				}
-				break;
-
-
-			case 4://right
-
-
-				tmp = ActionRight(map);
-				if (tmp == 1)
-				{
-					printf("\n\nInvalid Input\n");
-					flag = 1;
-				}
-				break;
-
-
-			default:
-				break;
-			}
-			if (flag == 1)
-			{
-				continue;
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-	return 0;
 }
