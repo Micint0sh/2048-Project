@@ -41,64 +41,71 @@ void ClearZero(int *line)
 	}
 }
 
-//include <time.h> & <stdlib.h>
-void RandIni()
+/*void PrintMap(int map[][4])
 {
-	srand((unsigned)time(NULL));
-}
-
-int RandCoor()
+system("cls");
+int i, j;
+printf("\n\n\n");
+for (i = 0; i < 4; i++)
 {
-	return rand() % 4;
-}
-
-int RandGameNum()
+printf("        ");
+for (j = 0; j < 4; j++)
 {
-	return (rand() % 2 + 1) * 2;
+switch (map[i][j])
+{
+case 0:printf("   .   ");
+break;
+case 2:printf("   2   ");
+break;
+case 4:printf("   4   ");
+break;
+case 8:printf("   8   ");
+break;
+case 16:printf("   16  ");
+break;
+case 32:printf("   32  ");
+break;
+case 64:printf("   64  ");
+break;
+case 128:printf("   128 ");
+break;
+case 256:printf("   256 ");
+break;
+case 512:printf("   512 ");
+break;
+case 1024:printf("  1024 ");
+break;
+case 2048:printf("  2048 ");
+break;
 }
+}
+printf("\n\n\n");
+}
+}*/
 
 void PrintMap(int map[][4])
 {
 	system("cls");
-	int i, j;
-	printf("\n\n\n");
-	for (i = 0; i < 4; i++)
+	printf("+----+----+----+----+\n");
+	for (int i = 0; i < 4; i++)
 	{
-		printf("        ");
-		for (j = 0; j < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
-			switch (map[i][j])
+			printf("|");
+			if (map[i][j] == 0)
 			{
-			case 0:printf("   .   ");
-				break;
-			case 2:printf("   2   ");
-				break;
-			case 4:printf("   4   ");
-				break;
-			case 8:printf("   8   ");
-				break;
-			case 16:printf("   16  ");
-				break;
-			case 32:printf("   32  ");
-				break;
-			case 64:printf("   64  ");
-				break;
-			case 128:printf("   128 ");
-				break;
-			case 256:printf("   256 ");
-				break;
-			case 512:printf("   512 ");
-				break;
-			case 1024:printf("  1024 ");
-				break;
-			case 2048:printf("  2048 ");
-				break;
+				printf("    ");
+			}
+			else
+			{
+				printf("%4d", map[i][j]);
 			}
 		}
-		printf("\n\n\n");
+		printf("|\n");
+		printf("+----+----+----+----+\n");
 	}
 }
-//To be completed.
+
 void Initialize(int map[][4])
 {
 	for (int i = 0; i < 4; i++)
@@ -108,59 +115,49 @@ void Initialize(int map[][4])
 			map[i][j] = 0;
 		}
 	}
-	int cnt = 0;
-	while (cnt<2)
-	{
-		int x = RandCoor();
-		int y = RandCoor();
-		if (map[x][y] == 0)
-		{
-			map[x][y] = RandGameNum();
-			cnt++;
-		}
-	}
-	PrintMap(map);
 }
-
+/*
 int ReadKey()
 {
-	int ch = _getch();
-	//when you press arrow in your keyboard, two values will be pushed into buffer
-	//the first value is 224 or 0 then it is a arrow key.
-	if (ch == 224 || ch == 0)
-	{
-		ch = _getch();
-		switch (ch)
-		{
-		case 72: //Up
-		{
-			return 1;
-		}
-		break;
-		case 80: //down
-		{
-			return 2;
-		}
-		break;
-		case 75: //left
-		{
-			return 3;
-		}
-		break;
-		case 77: //right
-		{
-			return 4;
-		}
-		break;
-		default: return 0;
-			break;
-		}//end switch 
-	}
-	else
-	{
-		return 0;
-	}
+int ch = _getch();
+//when you press arrow in your keyboard, two values will be pushed into buffer
+//the first value is 224 or 0 then it is a arrow key.
+if (ch == 224 || ch == 0)
+{
+ch = _getch();
+switch (ch)
+{
+case 72: //Up
+{
+return 1;
 }
+break;
+case 80: //down
+{
+return 2;
+}
+break;
+case 75: //left
+{
+return 3;
+}
+break;
+case 77: //right
+{
+return 4;
+}
+break;
+default: return 0;
+break;
+}//end switch
+}
+else
+{
+return 0;
+}
+}
+*/
+
 
 int ActionUp(int map[][4])
 {
@@ -325,88 +322,75 @@ int CheckFull(int map[][4])
 	return 1;
 }
 
-int main()
+int CheckLose(int map[][4])
 {
-	int map[4][4];
-	int tmp;
-	int flag = 0;
-	RandIni();
-	Initialize(map);
-	while (1)
+	int tmpmap[4][4];
+	for (int i = 0; i < 4; i++)
 	{
-		flag = 0;
-		switch (ReadKey())
+		for (int j = 0; j < 4; j++)
 		{
-		case 1://up
-
-			tmp = ActionUp(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 2://down
-
-
-			tmp = ActionDown(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 3://left
-
-
-			tmp = ActionLeft(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		case 4://right
-
-
-			tmp = ActionRight(map);
-			if (tmp == 1)
-			{
-				printf("\n\nInvalid Input\n");
-				flag = 1;
-			}
-			break;
-
-
-		default:
-			break;
-		}
-		if (flag == 1)
-		{
-			continue;
-		}
-		while (1)
-		{
-			int x = RandCoor();
-			int y = RandCoor();
-			if (map[x][y] == 0)
-			{
-				map[x][y] = RandGameNum();
-				break;
-			}
-		}
-		PrintMap(map);
-		if (CheckFull(map) == 1)
-		{
-			printf("	  -------You Lose-------\n");
-			break;
+			tmpmap[i][j] = map[i][j];
 		}
 	}
-	return 0;
+	if (CheckFull(tmpmap) == 1)
+	{
+		int tmp = ActionUp(tmpmap);
+		if (tmp == 1)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					tmpmap[i][j] = map[i][j];
+				}
+			}
+			int tmp = ActionDown(tmpmap);
+			if (tmp == 1)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					for (int j = 0; j < 4; j++)
+					{
+						tmpmap[i][j] = map[i][j];
+					}
+				}
+				int tmp = ActionLeft(tmpmap);
+				if (tmp == 1)
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						for (int j = 0; j < 4; j++)
+						{
+							tmpmap[i][j] = map[i][j];
+						}
+					}
+					int tmp = ActionRight(tmpmap);
+					if (tmp == 1)
+					{
+						return 1;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		return 0;
+	}
 }
